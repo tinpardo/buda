@@ -41,11 +41,11 @@ async def main():
     # setup an async context the Depth Cache and exit after 5 messages
 
 
-    Avance reporte portal monitoreo sitios Sistema Financiero.
-URL para ajustes.
-Ajuste indicador de disponibilidad.
-Por qué no se enviaron alertas por correo ante reporte de caída de 5 min del portal de la SFC.
-Cotización servicio APM.
+#    Avance reporte portal monitoreo sitios Sistema Financiero.
+#URL para ajustes.
+#Ajuste indicador de disponibilidad.
+#Por qué no se enviaron alertas por correo ante reporte de caída de 5 min del portal de la SFC.
+#Cotización servicio APM.
     async with DepthCacheManager(client, symbol='ETHBTC') as dcm_socket:
         for _ in range(5):
             depth_cache = await dcm_socket.recv()
