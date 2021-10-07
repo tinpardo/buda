@@ -16,10 +16,7 @@ while True:
     saldo_inicial = 5000000
     #saldo_inicial_dolares = 45000
     preciodolar = 3798
-
     budaBTCCOP = funciones.btcbuda_bid(saldo_inicial) #cantidad de BTC comprados en Buda
-
-
     binance = ccxt.binance()
     orderbook_binance = binance.fetch_order_book('BTC/USDT')
     precioventaBTC_binance = orderbook_binance["asks"][0][0]   #precio en dolares de 1 BTC en Binance
