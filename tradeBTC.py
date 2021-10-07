@@ -15,22 +15,22 @@ y = 0
 while True:
     saldo_inicial = 5000000
     #saldo_inicial_dolares = 45000
-    preciodolar = 3780
+    preciodolar = 3798
 
-    budaBTCCOP = funciones.btcbuda_bid(saldo_inicial)
+    budaBTCCOP = funciones.btcbuda_bid(saldo_inicial) #cantidad de BTC comprados en Buda
 
 
     binance = ccxt.binance()
     orderbook_binance = binance.fetch_order_book('BTC/USDT')
-    precioventaBTC_binance = orderbook_binance["asks"][0][0]
+    precioventaBTC_binance = orderbook_binance["asks"][0][0]   #precio en dolares de 1 BTC en Binance
     time.sleep(1)
     #preciocompraBTC_binance = orderbook_binance["bids"][0][0]
     #cantidadBTC_binance = saldo_inicial_dolares / preciocompraBTC_binance
     #budaCOPBTC = funciones.btcbuda_ask(cantidadBTC_binance)
     #print("Saldo final COP BUDA" + str(budaCOPBTC))
     #time.sleep(1)
-    binanceBTCUSDT = float(budaBTCCOP) * float(precioventaBTC_binance)
-    final = binanceBTCUSDT * preciodolar
+    binanceBTCUSDT = float(budaBTCCOP) * float(precioventaBTC_binance)  # ej 0.02711834 * 49935
+    final = binanceBTCUSDT * preciodolar   # Pesos de la cantidad de dolares comprados en Binance tasa CMA
     
     print("Tasa Implicita BTC:" + str(int(saldo_inicial / binanceBTCUSDT)) + " Tasa Implicita USD:" + str(int(final / binanceBTCUSDT)))
     print("Inicial: " + str(saldo_inicial) + " BTC Buda : " + str(budaBTCCOP) + " USD Binance " + str(binanceBTCUSDT) + " a precio " + str(precioventaBTC_binance))

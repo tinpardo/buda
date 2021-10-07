@@ -18,8 +18,8 @@ orderbook_buda = buda.fetch_order_book('BTC/COP')
 precioventaBTC_buda = orderbook_buda["asks"][0][0]
 print("Precio BTC/COP Buda: " + str(precioventaBTC_buda))
 
-#dolar = float(funciones.precio_dolar())
-dolar = 3780
+dolar = float(funciones.precio_dolar())
+#dolar = 3780
 
 
 #venta

@@ -90,6 +90,16 @@ def cotizacion_bid(cantidad, market):
     BTC_comprados = respuesta["quotation"]["base_balance_change"][0]
     return float(BTC_comprados)
 
+def limpiarordenes():
+    print("limpiando ordenes")
+
+
+def limpiarordenes_ask():
+    print("limpiando ordenes ask")
+
+def limpiarordenes_bid():
+    print("limpiando ordenes bid")
+
 def cotizacion_ask(cantidad, market):
     url = f'https://www.buda.com/api/v2/markets/{market}/quotations'
     try:
@@ -113,31 +123,44 @@ sys.path.append(root + '/python')
 import ccxt  # noqa: E402
 
 
-exchange = ccxt.buda({
+exchange_buda = ccxt.buda({
     'apiKey': config.apiKey,
     'secret': config.secret,
     'enableRateLimit': True,
 })
 
-exchange_binance = exchange = ccxt.binance({
+exchange_binance = ccxt.binance({
     'apiKey_Binance': config.apiKey,
     'secret_Binance': config.secret,
     'enableRateLimit': True,
 })
 
 
-# def orden_compra_mercado(simbolo,cantidad):
-#     symbol = simbolo
-#     type = 'market'  # or 'market'
-#     side = 'buy'  # or 'buy'
-#     amount = cantidad
-#     #price = 3700  # or None
-#     # extra params and overrides if needed
-#     params = {
-#         'test': True,  # test if it's valid, but don't actually place it
-#     }
-#    # order = exchange.create_market_buy_order(symbol, float(cantidad))
-#   #  print(order)
+def orden_compra_limite(simbolo,price,cantidad):
+
+    market_id = simbolo
+    url = f'https://www.buda.com/api/v2/markets/{market_id}/orders'
+    auth = BudaHMACAuth(config.apiKey, config.secret)
+    response = requests.post(url, auth=auth, json={
+    'type': 'Bid',
+    'price_type': 'limit',
+    'limit': price,
+    'amount': cantidad,
+    })
+    print(response.json())
+
+def orden_venta_limite(simbolo,price,cantidad):
+
+    market_id = simbolo
+    url = f'https://www.buda.com/api/v2/markets/{market_id}/orders'
+    auth = BudaHMACAuth(config.apiKey, config.secret)
+    response = requests.post(url, auth=auth, json={
+    'type': 'Ask',
+    'price_type': 'limit',
+    'limit': price,
+    'amount': cantidad,
+    })
+    print(response.json())
 
 # def orden_venta_mercado(simbolo,cantidad):
 #     symbol = simbolo
@@ -217,3 +240,53 @@ def precio_dolar():
     preciodolarCMA = response_precio.json()
     #print(response_precio.content)
     return (preciodolarCMA["arrQuotes"][0]["arrValues"][9]["14"])
+
+
+
+
+def limpiar_ordenes_bid(market_id):
+    url = f'https://www.buda.com/api/v2/markets/{market_id}/orders'
+    auth = BudaHMACAuth(config.apiKey, config.secret)
+    response = requests.get(url, auth=auth, params={
+        'state': 'pending',
+        'per': 20,
+        'page': 1,
+    })
+
+    respuesta = response.json()
+    res = respuesta["orders"]
+    #print(res[0])
+    for x in res:
+        if(x["type"] == 'Bid'):
+            print ( x["id"] )
+
+            url = f'https://www.buda.com/api/v2/orders/{x["id"]}'
+            auth = BudaHMACAuth(config.apiKey, config.secret)
+            response = requests.put(url, auth=auth, json={
+                'state': 'canceling',
+            })
+            #print(response.json())
+
+
+def limpiar_ordenes_ask(market_id):
+    url = f'https://www.buda.com/api/v2/markets/{market_id}/orders'
+    auth = BudaHMACAuth(config.apiKey, config.secret)
+    response = requests.get(url, auth=auth, params={
+        'state': 'pending',
+        'per': 20,
+        'page': 1,
+    })
+
+    respuesta = response.json()
+    res = respuesta["orders"]
+    #print(res[0])
+    for x in res:
+        if(x["type"] == 'Ask'):
+            print ( x["id"] )
+
+            url = f'https://www.buda.com/api/v2/orders/{x["id"]}'
+            auth = BudaHMACAuth(config.apiKey, config.secret)
+            response = requests.put(url, auth=auth, json={
+                'state': 'canceling',
+            })
+            #print(response.json())
