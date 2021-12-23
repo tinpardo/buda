@@ -90,6 +90,23 @@ def cotizacion_bid(cantidad, market):
     BTC_comprados = respuesta["quotation"]["base_balance_change"][0]
     return float(BTC_comprados)
 
+
+def cotizacion_bid_amount(cantidad, market):
+    url = f'https://www.buda.com/api/v2/markets/{market}/quotations'
+    try:
+        response = requests.post(url, json={
+            'type': 'bid_given_value',
+            'amount': cantidad,
+        })
+        response.raise_for_status()
+    except requests.exceptions.HTTPError as err:
+        raise SystemExit(err)
+    time.sleep(0.2)
+    respuesta = response.json()
+    #print(response.content)
+    BTC_comprados = respuesta["quotation"]["base_balance_change"][0]
+    return float(BTC_comprados)
+
 def limpiarordenes():
     print("limpiando ordenes")
 
@@ -290,3 +307,28 @@ def limpiar_ordenes_ask(market_id):
                 'state': 'canceling',
             })
             #print(response.json())
+
+def tasaimplicita(cripto, fiat):
+
+    #buda = ccxt.buda()
+    #binance = ccxt.binance()
+
+    orderbook_binance = exchange_binance.fetch_order_book(cripto + '/USDT')
+    precioventaBTC_binance_bid = orderbook_binance["asks"][0][0]
+
+    orderbook_buda = exchange_buda.fetch_order_book(cripto +'/'+ fiat)
+    precioventaBTC_buda_bid = orderbook_buda["asks"][0][0]
+
+    tasa_implicita_btc = precioventaBTC_buda_bid / precioventaBTC_binance_bid 
+    #print(precioventaBTC_buda_bid)
+    return int(tasa_implicita_btc)
+
+def misordenes(market_id):
+    url = f'https://www.buda.com/api/v2/markets/{market_id}/orders'
+    auth = BudaHMACAuth(config.apiKey, config.secret)
+    response = requests.get(url, auth=auth, params={
+        'state': 'pending',
+        'per': 20,
+        'page': 1,
+    })
+    print(response.json())

@@ -2,7 +2,7 @@ import requests
 import json
 from numpy import * 
 import funciones
-import robot
+#import robot
 
 
 
@@ -73,6 +73,11 @@ camino = array( [
     )
 
 
+
+[ { "inputs": [], "stateMutability": "nonpayable", "type": "constructor" }, { "inputs": [ { "internalType": "address", "name": "", "type": "address" } ], "name": "Respuestas", "outputs": [ { "internalType": "string", "name": "hash1", "type": "string" }, { "internalType": "string", "name": "file1", "type": "string" }, { "internalType": "string", "name": "hash2", "type": "string" }, { "internalType": "string", "name": "file2", "type": "string" }, { "internalType": "string", "name": "hash3", "type": "string" }, { "internalType": "string", "name": "file3", "type": "string" }, { "internalType": "string", "name": "hash4", "type": "string" }, { "internalType": "string", "name": "file4", "type": "string" } ], "stateMutability": "view", "type": "function" }, { "inputs": [ { "internalType": "string", "name": "_pregunta1", "type": "string" }, { "internalType": "string", "name": "_file1", "type": "string" }, { "internalType": "string", "name": "_pregunta2", "type": "string" }, { "internalType": "string", "name": "_file2", "type": "string" }, { "internalType": "string", "name": "_pregunta3", "type": "string" }, { "internalType": "string", "name": "_file3", "type": "string" }, { "internalType": "string", "name": "_pregunta4", "type": "string" }, { "internalType": "string", "name": "_file4", "type": "string" } ], "name": "contestar", "outputs": [], "stateMutability": "payable", "type": "function" }, { "inputs": [], "name": "getprofesor", "outputs": [ { "internalType": "address", "name": "", "type": "address" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "getrespuestas", "outputs": [ { "components": [ { "internalType": "string", "name": "hash1", "type": "string" }, { "internalType": "string", "name": "file1", "type": "string" }, { "internalType": "string", "name": "hash2", "type": "string" }, { "internalType": "string", "name": "file2", "type": "string" }, { "internalType": "string", "name": "hash3", "type": "string" }, { "internalType": "string", "name": "file3", "type": "string" }, { "internalType": "string", "name": "hash4", "type": "string" }, { "internalType": "string", "name": "file4", "type": "string" } ], "internalType": "struct Employee.Parcial", "name": "", "type": "tuple" } ], "stateMutability": "view", "type": "function" } ]
+
+
+
 saldo_inicial = 100000
 
 
@@ -83,7 +88,7 @@ while True:
         comp2 = funciones.cotizacion_bid(vend1,y[2])
         vend2 = funciones.cotizacion_ask(comp2,y[3])
 
-        #print(" " + str(comp1) + " " + str(vend1) + " "+ str(comp2) + " "+ str(vend2))
+        print(" " + str(comp1) + " " + str(vend1) + " "+ str(comp2) + " "+ str(vend2))
 
         if (vend2 > saldo_inicial):
                         funciones.dump (funciones.green(str(y)) + "  Saldo final  \t" + str(vend2) + "  \t"+ funciones.green(str(int(vend2 - saldo_inicial )))+ "--------Opordunidad--------")
