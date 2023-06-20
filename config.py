@@ -1,7 +1,1 @@
 
-
-apiKey = '60eb4deb84319366dbd8cc14245b258c'
-secret = 'CxuBpnAuRgWyNXOesNLFyyLaxhxtv5DXDvk25xC8'
-
-apiKey_Binance = 'Juz4ZitGcH6WhoukWvHTs9ay1vBPrT7HIZxDbshS0Mthq9udJ0lKViYaJIOu7DF7'
-secret_Binance = 'whkxCaFX6VNVmCP2yOu843UyDiKWPgk6xqEWf2A3E1J3G3hrYpBoxjkAziCBPDrt'
